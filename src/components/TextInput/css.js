@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-export const StyleTextInput = StyleSheet.create({
+export const Styles = StyleSheet.create({
     container: {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     input: {
         width: '100%',

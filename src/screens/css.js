@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const StylesForm = StyleSheet.create({
     container: {
+        marginTop: 10,
         padding: 10,
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     title: {
         color: '#000000',
