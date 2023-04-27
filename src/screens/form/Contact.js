@@ -1,34 +1,36 @@
 import { Text, View } from 'react-native';
 import { useState } from 'react';
-import { StylesForm } from './css';
-import { ModalError } from '../components/Modal';
-import { TextCustom, TextPhone } from '../components/TextInput';
-import { hasLegalAge, hasName, hasEmail, hasPhone } from '../context/validForm'
-import { ButtonNext } from '../components/Button';
-import { DatePickerCustom } from '../components/DatePicker';
+import { StylesForm } from '../css';
 
-export const ContactForm = () => {
-    const setNome = (value) => {
-        var clone = Object.assign({}, contactForm);
-        clone.name = value
-        SetContactForm(clone)
+import { hasLegalAge, hasName, hasEmail, hasPhone } from '../../context/validForm'
+
+import { ModalError } from '../../components/Modal';
+import { ButtonNext } from '../../components/Button';
+
+import { DatePickerCustom } from '../../components/DatePicker';
+import { TextCustom, TextPhone } from '../../components/TextInput';
+
+
+export const ContactForm = props => {
+    const setName = (value) => {
+        CallBack('name', value)
     }
     const setEmail = (value) => {
-        var clone = Object.assign({}, contactForm);
-        clone.email = value
-        SetContactForm(clone)
+        CallBack('email', value)
     }
     const setAge = (value) => {
-        var clone = Object.assign({}, contactForm);
-        clone.age = value
-        SetContactForm(clone)
+        CallBack('age', value)
     }
     const setPhone = (value) => {
-        var clone = Object.assign({}, contactForm);
-        clone.phone = value
-        SetContactForm(clone)
+        CallBack('phone', value)
     }
-    const [contactForm, SetContactForm] = useState({
+    const CallBack = (item, value) => {
+        var clone = Object.assign({}, form);
+        clone[item] = value
+        SetForm(clone)
+        hasCompletedTheMandatory()
+    }
+    const [form, SetForm] = useState({
         name: '',
         email: '',
         age: new Date(),
@@ -36,57 +38,56 @@ export const ContactForm = () => {
     })
     const [msgError, setMsgError] = useState('');
     const [buttonDisable, setButtonDisable] = useState(true);
-    const itsFilled = () => {
-        setButtonDisable((contactForm.name && contactForm.email && contactForm.age && contactForm.phone) ? false : true)
+    const hasCompletedTheMandatory = () => {
+        setButtonDisable((form.name && form.email && form.age && form.phone) ? false : true)
     }
-    const validForm = () => {
-        if (!hasName(contactForm.name)) {
+    const submit = () => {
+        if (!hasName(form.name)) {
             setMsgError('Preencha o nome corretamente');
             return false
         }
-        if (!hasEmail(contactForm.email)) {
+        if (!hasEmail(form.email)) {
             setMsgError('Preencha o email corretamente');
             return false
         }
-        if (!hasPhone(contactForm.phone)) {
+        if (!hasPhone(form.phone)) {
             setMsgError('Preencha o telefone corretamente');
             return false
         }
-        if (!hasLegalAge(contactForm.age)) {
+        if (!hasLegalAge(form.age)) {
             setMsgError('Você precisa ter entre 18 a 130 anos');
             return false
         }
-        setMsgError('')
-        return true
+        next(props.completeForm, form)
+    }
+    const next = (completeForm) => {
+        var clone = Object.assign({}, form);
+        clone.age = clone.age.toString()
+        completeForm.contact = clone
+        props.next(completeForm)
     }
     return (
         <View style={StylesForm.container}>
-            <View style={StylesForm.viewText}>
-                <Text style={StylesForm.title}>Dados de contato</Text>
-            </View>
             <ModalError
                 setMsgError={setMsgError}
                 msgError={msgError}
             />
             <TextCustom
-                onBlur={itsFilled}
-                callBack={setNome}
-                item={contactForm.name}
+                callBack={setName}
+                item={form.name}
                 maxLength={100}
                 placeholder="Nome completo *"
             />
             <TextCustom
-                onBlur={itsFilled}
                 callBack={setEmail}
-                item={contactForm.email}
+                item={form.email}
                 maxLength={100}
                 placeholder="E-mail *"
                 keyboardType="email-address"
             />
             <TextPhone
-                onBlur={itsFilled}
                 callBack={setPhone}
-                item={contactForm.phone}
+                item={form.phone}
                 maxLength={15}
                 placeholder="Telefone *"
                 keyboardType="phone-pad"
@@ -94,14 +95,14 @@ export const ContactForm = () => {
             <DatePickerCustom
                 placeholder="Data de nascimento *"
                 setDate={setAge}
-                date={contactForm.age}
+                date={form.age}
             />
             <View style={StylesForm.viewText}>
                 <Text style={StylesForm.label}>(*) Preencha todos os campos obrigatório</Text>
             </View>
             <ButtonNext
-                onPress={validForm}
-                title="Cadastrar"
+                onPress={submit}
+                title="Continuar"
                 disabled={buttonDisable}
             />
         </View>

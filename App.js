@@ -1,5 +1,5 @@
-import { ContactForm } from './src/screens/Form';
+import { FormScreen } from './src/screens/route';
 
 export default function App() {
-  return (<ContactForm />);
+  return (<FormScreen />);
 }

@@ -2,21 +2,24 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Modal, Text, View } from 'react-native';
 import { Styles } from './css';
-import { ButtonClosed, ButtonNext } from '../Button';
+import { ButtonClosed, ButtonSuccess } from '../Button';
 export const ModalCustom = (props) => {
     const callBack = () => {
-        props.setModalVisible(!props.modalVisible)
+        props.setMsg('')
     }
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={props.modalVisible}
+            visible={(props.msg) ? true : false}
         >
             <View style={Styles.centeredView}>
-                <View style={Styles.modalView}>
-                    <Text style={Styles.modalText}>Cadastro foi preenchido com sucesso</Text>
-                    <ButtonNext
+                <View style={Styles.modalViewSucess}>
+                    <View>
+                        <Ionicons name='document-text-outline' size={175} color='#ffffff' />
+                    </View>
+                    <Text style={Styles.modalTextSuccess}>Cadastro foi preenchido com sucesso</Text>
+                    <ButtonSuccess
                         onPress={callBack}
                         title='OK'
                     />

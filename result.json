@@ -1,0 +1,32 @@
+{
+    "address": {
+        "address": "Av Paulista",
+        "cep": "04612-060",
+        "city": "",
+        "complement": "",
+        "neighborhood": "",
+        "number": "3",
+        "state": "SP"
+    },
+    "affiliation": {
+        "father": "",
+        "mother": "Maria Castorino",
+        "noAffiliation": false
+    },
+    "contact": {
+        "age": 1954-04-02T17: 01: 07.287Z,
+        "email": "gabriel.castorino@fiap.com",
+        "name": "Gabriel Castorino",
+        "phone": "(11) 94444-4444"
+    },
+    "documents": {
+        "cpf": "XXX.XXX.XXX-XX",
+        "foreigner": false,
+        "passport": "",
+        "rg": "415222222"
+    },
+    "terms": {
+        "accept": true,
+        "newsletter": false
+    }
+}

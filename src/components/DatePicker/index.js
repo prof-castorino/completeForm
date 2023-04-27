@@ -1,7 +1,7 @@
-import { Text, View, Button } from "react-native";
+import { Text, View } from "react-native";
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { ButtonDate } from "../Button";
-import { StyleTextInput } from "./css";
+import { Styles } from "./css";
 export const DatePickerCustom = (props) => {
     const onChange = (event, value) => {
         props.setDate(value)
@@ -15,11 +15,11 @@ export const DatePickerCustom = (props) => {
         })
     }
     return (
-        <View style={StyleTextInput.container}>
-            <Text style={[StyleTextInput.input, StyleTextInput.inputDisabled]}>
-                {props.date.getDay()}/{props.date.getMonth()}/{props.date.getFullYear()}
+        <View style={Styles.container}>
+            <Text style={[Styles.input, Styles.inputDisabled]}>
+                {props.date.getDate()}/{props.date.getMonth() + 1}/{props.date.getFullYear()}
             </Text>
-            <View style={StyleTextInput.icon}>
+            <View style={Styles.icon}>
                 <ButtonDate onPress={showme} />
             </View>
         </View>
