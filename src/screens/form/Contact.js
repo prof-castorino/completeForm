@@ -61,7 +61,9 @@ export const ContactForm = props => {
         next(props.completeForm, form)
     }
     const next = (completeForm) => {
-        completeForm.contact = form
+        var clone = Object.assign({}, form);
+        clone.age = clone.age.toString()
+        completeForm.contact = clone
         props.next(completeForm)
     }
     return (

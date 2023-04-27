@@ -39,9 +39,17 @@ export const AffiliationForm = props => {
         }
     }
     const submit = () => {
-        if (!hasName(form.mother)) {
-            setMsgError('Preencha o nome do mãe corretamente');
-            return false
+        if (!form.noAffiliation) {
+            if (!hasName(form.mother)) {
+                setMsgError('Preencha o nome do mãe corretamente');
+                return false
+            }
+        }
+        if (form.mother) {
+            if (!hasName(form.mother)) {
+                setMsgError('Preencha o nome do mãe corretamente');
+                return false
+            }
         }
         if (form.father) {
             if (!hasName(form.father)) {

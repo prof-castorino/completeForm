@@ -17,7 +17,7 @@ export const DatePickerCustom = (props) => {
     return (
         <View style={Styles.container}>
             <Text style={[Styles.input, Styles.inputDisabled]}>
-                {props.date.getDay()}/{props.date.getMonth()}/{props.date.getFullYear()}
+                {props.date.getDate()}/{props.date.getMonth() + 1}/{props.date.getFullYear()}
             </Text>
             <View style={Styles.icon}>
                 <ButtonDate onPress={showme} />

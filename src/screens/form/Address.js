@@ -69,9 +69,7 @@ export const AddressForm = props => {
                 msgError={msgError}
             />
             <TextCEP
-                callBack={(value) => {
-                    CallBack('cep', value)
-                }}
+                callBack={setCep}
                 item={form.cep}
                 maxLength={9}
                 placeholder="CEP *"
