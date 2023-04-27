@@ -57,9 +57,14 @@ export const ContactForm = props => {
             setMsgError('Você precisa ter entre 18 a 130 anos');
             return false
         }
-        var clone = Object.assign({}, form)
-        clone.age = clone.age.toISOString()
-        props.next(clone)
+
+        next(props.completeForm, form)
+    }
+    const next = (completeForm) => {
+        var clone = Object.assign({}, form);
+        clone.age = clone.age.toString()
+        completeForm.contact = clone
+        props.next(completeForm)
     }
     return (
         <View style={StylesForm.container}>
