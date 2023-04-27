@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { state } from '../../context/selectItens';
+import { state } from '../../Context/Util/Address';
 import { Styles } from './css'
 import { FlatList, SafeAreaView, View, Text } from 'react-native';
 import { ItemSelect, ButtonSelect } from '../Button';

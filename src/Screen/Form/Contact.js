@@ -2,13 +2,12 @@ import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { StylesForm } from '../css';
 
-import { hasLegalAge, hasName, hasEmail, hasPhone } from '../../context/validForm'
+import { hasLegalAge, hasName, hasEmail, hasPhone } from '../../Context/Util/ValidForm'
 
-import { ModalError } from '../../components/Modal';
-import { ButtonNext } from '../../components/Button';
-
-import { DatePickerCustom } from '../../components/DatePicker';
-import { TextCustom, TextPhone } from '../../components/TextInput';
+import { ModalError } from '../../Components/Modal';
+import { ButtonNext } from '../../Components/Button';
+import { DatePickerCustom } from '../../Components/DatePicker';
+import { TextCustom, TextPhone } from '../../Components/TextInput';
 
 
 export const ContactForm = props => {
@@ -58,11 +57,9 @@ export const ContactForm = props => {
             setMsgError('Você precisa ter entre 18 a 130 anos');
             return false
         }
-        next(props.completeForm, form)
-    }
-    const next = (completeForm) => {
-        completeForm.contact = form
-        props.next(completeForm)
+        var clone = Object.assign({}, form)
+        clone.age = clone.age.toISOString()
+        props.next(clone)
     }
     return (
         <View style={StylesForm.container}>

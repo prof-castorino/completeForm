@@ -1,13 +1,13 @@
 import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { StylesForm } from '../css';
-import { hasCPF } from '../../context/validForm'
+import { hasCPF } from '../../Context/Util/ValidForm'
 
-import { ModalError } from '../../components/Modal';
-import { ButtonNext } from '../../components/Button';
+import { ModalError } from '../../Components/Modal';
+import { ButtonNext } from '../../Components/Button';
 
-import { FeatureFlagCustom } from '../../components/FeatureFlag';
-import { TextCustom, TextCPF } from '../../components/TextInput';
+import { FeatureFlagCustom } from '../../Components/FeatureFlag';
+import { TextCustom, TextCPF } from '../../Components/TextInput';
 
 
 export const DocumentForm = props => {
@@ -51,11 +51,7 @@ export const DocumentForm = props => {
                 return false
             }
         }
-        next(props.completeForm, form)
-    }
-    const next = (completeForm) => {
-        completeForm.documents = form
-        props.next(completeForm)
+        props.next(form)
     }
     return (
         <View style={StylesForm.container}>

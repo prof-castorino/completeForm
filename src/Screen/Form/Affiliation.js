@@ -1,12 +1,12 @@
 import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { StylesForm } from '../css';
-import { hasName } from '../../context/validForm'
+import { hasName } from '../../Context/Util/ValidForm'
 
-import { ModalError } from '../../components/Modal';
-import { ButtonNext } from '../../components/Button';
-import { TextCustom } from '../../components/TextInput';
-import { FeatureFlagCustom } from '../../components/FeatureFlag';
+import { ModalError } from '../../Components/Modal';
+import { ButtonNext } from '../../Components/Button';
+import { TextCustom } from '../../Components/TextInput';
+import { FeatureFlagCustom } from '../../Components/FeatureFlag';
 
 export const AffiliationForm = props => {
     const setMother = (value) => {
@@ -49,11 +49,7 @@ export const AffiliationForm = props => {
                 return false
             }
         }
-        next(props.completeForm, form)
-    }
-    const next = (completeForm) => {
-        completeForm.affiliation = form
-        props.next(completeForm)
+        props.next(form)
     }
     return (
         <View style={StylesForm.container}>

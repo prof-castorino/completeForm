@@ -1,16 +1,33 @@
 import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { StylesForm } from '../css';
-import { hasName } from '../../context/validForm'
+import { hasName } from '../../Context/Util/ValidForm'
 
-import { ModalError } from '../../components/Modal';
-import { ButtonNext } from '../../components/Button';
+import { ModalError } from '../../Components/Modal';
+import { ButtonNext } from '../../Components/Button';
 
-import { StateBox } from '../../components/FastList';
-import { TextCustom, TextCEP } from '../../components/TextInput';
+import { StateBox } from '../../Components/FastList';
+import { TextCustom, TextCEP } from '../../Components/TextInput';
+import { FindCep } from '../../Context/Util/Address';
 
 export const AddressForm = props => {
+    const SendByCep = (data) => {
+        var clone = Object.assign({}, form);
+        clone.cep = data.cep
+        clone.bairro = data.bairro
+        clone.estado = data.uf
+        clone.logradouro = data.logradouro
+        clone.cidade = data.localidade
+        SetForm(clone)
+        hasCompletedTheMandatory()
+    }
     const setCep = (value) => {
+        if (value.length == 9) {
+            var data = FindCep(value)
+            if (data) {
+                return SendByCep(data)
+            }
+        }
         CallBack('cep', value)
     }
     const setAddress = (value) => {
@@ -56,11 +73,7 @@ export const AddressForm = props => {
             setMsgError('Preencha o Logradouro corretamente');
             return false
         }
-        next(props.completeForm, form)
-    }
-    const next = (completeForm) => {
-        completeForm.address = form
-        props.next(completeForm)
+        props.next(form)
     }
     return (
         <View style={StylesForm.container}>
@@ -69,9 +82,7 @@ export const AddressForm = props => {
                 msgError={msgError}
             />
             <TextCEP
-                callBack={(value) => {
-                    CallBack('cep', value)
-                }}
+                callBack={setCep}
                 item={form.cep}
                 maxLength={9}
                 placeholder="CEP *"

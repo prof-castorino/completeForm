@@ -2,9 +2,9 @@ import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { StylesForm } from '../css';
 
-import { ModalCustom } from '../../components/Modal';
-import { ButtonNext } from '../../components/Button';
-import { FeatureFlagCustom } from '../../components/FeatureFlag';
+import { ModalCustom } from '../../Components/Modal';
+import { ButtonNext } from '../../Components/Button';
+import { FeatureFlagCustom } from '../../Components/FeatureFlag';
 
 export const TermsForm = props => {
     const setNewsletter = (value) => {
@@ -31,11 +31,7 @@ export const TermsForm = props => {
     }
     const Submit = () => {
         setMsg('Dados enviados com sucesso, agora iremos analisa-los e logo entraremos em contato.')
-        next(props.completeForm, form)
-    }
-    const next = (completeForm) => {
-        completeForm.terms = form
-        props.next(completeForm)
+        props.next(form)
     }
     return (
         <View style={StylesForm.container}>

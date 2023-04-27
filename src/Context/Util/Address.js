@@ -1,3 +1,12 @@
+export const FindCep = async (cep) => {
+    fetch("https://viacep.com.br/ws/" + cep.trim().replace("-", "") + "/json")
+        .then(resp => resp.json())
+        .then(dados => {
+            return dados
+        })
+}
+
+
 export const state = () => [
     {
         id: 'AC', title: 'Acre'

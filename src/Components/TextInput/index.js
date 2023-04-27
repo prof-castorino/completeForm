@@ -1,5 +1,5 @@
 import { View, TextInput } from 'react-native';
-import { maskPhone, maskDate, maskCEP, maskCPF } from '../../context/mask'
+import { maskPhone, maskDate, maskCEP, maskCPF } from '../../Context/Util/Mask'
 import { Styles } from './css'
 
 export const TextCustom = (props) => {
