@@ -1,36 +1,24 @@
 import { Text, View } from 'react-native';
-import { useState } from 'react';
-import { StylesForm } from '../css';
+import { useState, useCallback } from 'react';
+import { StylesForm } from './css';
 import { hasName } from '../../Context/Util/ValidForm'
-
+import { AffiliationProps } from '../../Context/Interface'
 import { ModalError } from '../../Components/Modal';
 import { ButtonNext } from '../../Components/Button';
 import { TextCustom } from '../../Components/TextInput';
 import { FeatureFlagCustom } from '../../Components/FeatureFlag';
 
 export const AffiliationForm = props => {
-    const setMother = (value) => {
-        CallBack('mother', value)
-    }
-    const setFather = (value) => {
-        CallBack('father', value)
-    }
-    const setNoAffiliation = (value) => {
-        CallBack('noAffiliation', value)
-    }
-    const CallBack = (item, value) => {
+    const [form, SetForm] = useState(AffiliationProps)
+    const [msgError, setMsgError] = useState('');
+    const [buttonDisable, setButtonDisable] = useState(true);
+    const CallBack = useCallback((item, value) => {
         var clone = Object.assign({}, form);
         clone[item] = value
         SetForm(clone)
         hasCompletedTheMandatory()
-    }
-    const [form, SetForm] = useState({
-        mother: '',
-        father: '',
-        noAffiliation: false,
-    })
-    const [msgError, setMsgError] = useState('');
-    const [buttonDisable, setButtonDisable] = useState(true);
+    }, [form]);
+
     const hasCompletedTheMandatory = () => {
         if (form.noAffiliation) {
             setButtonDisable((form.mother) ? false : true)
@@ -57,34 +45,31 @@ export const AffiliationForm = props => {
                 return false
             }
         }
-        props.next(form)
+        props.CallBack(form)
     }
     return (
         <View style={StylesForm.container}>
-            <ModalError
-                setMsgError={setMsgError}
-                msgError={msgError}
-            />
+            <ModalError setMsgError={setMsgError} msgError={msgError} />
             <TextCustom
-                onBlur={hasCompletedTheMandatory}
-                callBack={setMother}
+                CallBack={CallBack}
                 item={form.mother}
                 maxLength={100}
+                name='mother'
                 disabled={form.noAffiliation}
                 placeholder={(!form.noAffiliation) ? "Mãe *" : "Mãe"}
             />
             <TextCustom
-                onBlur={hasCompletedTheMandatory}
-                callBack={setFather}
+                CallBack={CallBack}
                 item={form.father}
                 maxLength={100}
+                name='father'
                 disabled={form.noAffiliation}
                 placeholder="Pai"
             />
             <FeatureFlagCustom
-                onBlur={hasCompletedTheMandatory}
-                callBack={setNoAffiliation}
+                CallBack={CallBack}
                 item={form.noAffiliation}
+                name='noAffiliation'
                 placeholder={"Sem filiação"}
             />
             <View style={StylesForm.viewText}>

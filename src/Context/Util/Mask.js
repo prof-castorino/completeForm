@@ -1,4 +1,4 @@
-export const maskPhone = (phone, value) => {
+export const Phone = (phone, value) => {
     if (value.length == 1 && phone.length == 0) {
         return "(" + value
     }
@@ -11,7 +11,7 @@ export const maskPhone = (phone, value) => {
     return value
 }
 
-export const maskDate = (date, value) => {
+export const Date = (date, value) => {
     if (value.length == 2 && date.length == 1) {
         return value + "/"
     }
@@ -21,14 +21,14 @@ export const maskDate = (date, value) => {
     return value
 }
 
-export const maskCEP = (cep, value) => {
+export const CEP = (cep, value) => {
     if (value.length == 5 && cep.length == 4) {
         return value + "-"
     }
     return value
 }
 
-export const maskCPF = (cpf, value) => {
+export const CPF = (cpf, value) => {
     if (
         (value.length == 3 && cpf.length == 2) || (value.length == 7 && cpf.length == 6)
     ) {

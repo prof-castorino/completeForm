@@ -1,42 +1,24 @@
 import { Text, View } from 'react-native';
-import { useState } from 'react';
-import { StylesForm } from '../css';
+import { useState, useCallback } from 'react';
+import { StylesForm } from './css';
 import { hasCPF } from '../../Context/Util/ValidForm'
-
+import { DocumentProps } from '../../Context/Interface'
 import { ModalError } from '../../Components/Modal';
 import { ButtonNext } from '../../Components/Button';
-
 import { FeatureFlagCustom } from '../../Components/FeatureFlag';
 import { TextCustom, TextCPF } from '../../Components/TextInput';
 
 
 export const DocumentForm = props => {
-    const setRG = (value) => {
-        CallBack('rg', value)
-    }
-    const setCPF = (value) => {
-        CallBack('cpf', value)
-    }
-    const setPassport = (value) => {
-        CallBack('passport', value)
-    }
-    const setForeigner = (value) => {
-        CallBack('foreigner', value)
-    }
-    const CallBack = (item, value) => {
+    const [form, SetForm] = useState(DocumentProps)
+    const [msgError, setMsgError] = useState('');
+    const [buttonDisable, setButtonDisable] = useState(true);
+    const CallBack = useCallback((item, value) => {
         var clone = Object.assign({}, form);
         clone[item] = value
         SetForm(clone)
         hasCompletedTheMandatory()
-    }
-    const [form, SetForm] = useState({
-        rg: '',
-        cpf: '',
-        passport: '',
-        foreigner: false,
-    })
-    const [msgError, setMsgError] = useState('');
-    const [buttonDisable, setButtonDisable] = useState(true);
+    }, [form]);
     const hasCompletedTheMandatory = () => {
         if (form.foreigner) {
             setButtonDisable((form.passport) ? false : true)
@@ -51,37 +33,37 @@ export const DocumentForm = props => {
                 return false
             }
         }
-        props.next(form)
+        props.CallBack(form)
     }
     return (
         <View style={StylesForm.container}>
-            <ModalError
-                setMsgError={setMsgError}
-                msgError={msgError}
-            />
+            <ModalError setMsgError={setMsgError} msgError={msgError} />
             <TextCustom
-                callBack={setRG}
+                CallBack={CallBack}
                 item={form.rg}
+                name='rg'
                 maxLength={15}
                 placeholder={(!form.foreigner) ? "RG *" : "RG"}
                 keyboardType="phone-pad"
             />
             <TextCPF
-                callBack={setCPF}
+                CallBack={CallBack}
                 item={form.cpf}
+                name='cpf'
                 maxLength={14}
                 placeholder={(!form.foreigner) ? "CPF *" : "CPF"}
                 keyboardType="phone-pad"
             />
             <TextCustom
-                callBack={setPassport}
+                CallBack={CallBack}
                 item={form.passport}
+                name='passport'
                 maxLength={100}
                 placeholder={(!form.foreigner) ? "Passaporte" : "Passaporte *"}
             />
-
             <FeatureFlagCustom
-                callBack={setForeigner}
+                CallBack={CallBack}
+                name='foreigner'
                 item={form.foreigner}
                 placeholder={"Estrangeiro"}
             />

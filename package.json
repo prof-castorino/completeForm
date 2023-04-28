@@ -9,13 +9,15 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-community/datetimepicker": "^6.7.3",
+    "@react-native-community/datetimepicker": "6.7.3",
+    "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
     "expo": "~48.0.10",
     "react": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.7",
     "react-native-mask-input": "^1.2.3",
     "react-native-reanimated": "~2.14.4",
     "react-native-vector-icons": "^9.2.0",

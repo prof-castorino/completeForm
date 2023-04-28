@@ -1,9 +1,8 @@
 import { Text, View } from 'react-native';
-import { useState } from 'react';
-import { StylesForm } from '../css';
-
-import { hasLegalAge, hasName, hasEmail, hasPhone } from '../../Context/Util/ValidForm'
-
+import { useState, useCallback } from 'react';
+import { StylesForm } from './css';
+import { ContactProps } from '../../Context/Interface'
+import * as valid from '../../Context/Util/ValidForm'
 import { ModalError } from '../../Components/Modal';
 import { ButtonNext } from '../../Components/Button';
 import { DatePickerCustom } from '../../Components/DatePicker';
@@ -11,90 +10,68 @@ import { TextCustom, TextPhone } from '../../Components/TextInput';
 
 
 export const ContactForm = props => {
-    const setName = (value) => {
-        CallBack('name', value)
-    }
-    const setEmail = (value) => {
-        CallBack('email', value)
-    }
-    const setAge = (value) => {
-        CallBack('age', value)
-    }
-    const setPhone = (value) => {
-        CallBack('phone', value)
-    }
-    const CallBack = (item, value) => {
+    const [form, SetForm] = useState(ContactProps)
+    const [msgError, setMsgError] = useState('');
+    const [buttonDisable, setButtonDisable] = useState(true);
+    const CallBack = useCallback((item, value) => {
         var clone = Object.assign({}, form);
         clone[item] = value
         SetForm(clone)
         hasCompletedTheMandatory()
-    }
-    const [form, SetForm] = useState({
-        name: '',
-        email: '',
-        age: new Date(),
-        phone: ''
-    })
-    const [msgError, setMsgError] = useState('');
-    const [buttonDisable, setButtonDisable] = useState(true);
+    }, [form]);
     const hasCompletedTheMandatory = () => {
         setButtonDisable((form.name && form.email && form.age && form.phone) ? false : true)
     }
     const submit = () => {
-        if (!hasName(form.name)) {
+        if (!valid.hasName(form.name)) {
             setMsgError('Preencha o nome corretamente');
             return false
         }
-        if (!hasEmail(form.email)) {
+        if (!valid.hasEmail(form.email)) {
             setMsgError('Preencha o email corretamente');
             return false
         }
-        if (!hasPhone(form.phone)) {
+        if (!valid.hasPhone(form.phone)) {
             setMsgError('Preencha o telefone corretamente');
             return false
         }
-        if (!hasLegalAge(form.age)) {
-            setMsgError('Você precisa ter entre 18 a 130 anos');
-            return false
-        }
-
-        next(props.completeForm, form)
+        next(form)
     }
-    const next = (completeForm) => {
+    const next = (form) => {
         var clone = Object.assign({}, form);
         clone.age = clone.age.toString()
-        completeForm.contact = clone
-        props.next(completeForm)
+        props.CallBack(clone)
     }
     return (
         <View style={StylesForm.container}>
-            <ModalError
-                setMsgError={setMsgError}
-                msgError={msgError}
-            />
+            <ModalError setMsgError={setMsgError} msgError={msgError} />
             <TextCustom
-                callBack={setName}
+                CallBack={CallBack}
                 item={form.name}
+                name='name'
                 maxLength={100}
                 placeholder="Nome completo *"
             />
             <TextCustom
-                callBack={setEmail}
+                CallBack={CallBack}
                 item={form.email}
+                name='email'
                 maxLength={100}
                 placeholder="E-mail *"
                 keyboardType="email-address"
             />
             <TextPhone
-                callBack={setPhone}
+                CallBack={CallBack}
                 item={form.phone}
+                name='phone'
                 maxLength={15}
                 placeholder="Telefone *"
                 keyboardType="phone-pad"
             />
             <DatePickerCustom
                 placeholder="Data de nascimento *"
-                setDate={setAge}
+                CallBack={CallBack}
+                name='age'
                 date={form.age}
             />
             <View style={StylesForm.viewText}>

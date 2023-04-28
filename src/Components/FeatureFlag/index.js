@@ -4,7 +4,7 @@ import { ButtonIcon } from '../Button';
 
 export const FeatureFlagCustom = (props) => {
     const CallBack = () => {
-        props.callBack(!props.item)
+        props.CallBack(props.name, !props.item)
     }
     return (
         <View style={Style.container}>
@@ -12,7 +12,8 @@ export const FeatureFlagCustom = (props) => {
                 <View style={(props.item) ? Style.activeIcon : Style.inactiveIcon}>
                     <ButtonIcon
                         icon='baseball-outline'
-                        onPress={CallBack} />
+                        onPress={CallBack}
+                        name={props.name} />
                 </View>
             </View>
             <Text style={Style.label}>{props.placeholder}</Text>

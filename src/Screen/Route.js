@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import { store } from '../Context/Redux'
-import { increment } from '../Context/Redux/Store/form';
+import { incrementForm } from '../Context/Redux/Store';
 import { Provider, useDispatch } from 'react-redux'
 
 import { AddressForm } from "./Form/Address"
@@ -12,6 +12,7 @@ import { DocumentForm } from "./Form/Document"
 import { TermsForm } from "./Form/Terms"
 
 const Stack = createNativeStackNavigator()
+
 export const FormScreen = () => {
 
     return (
@@ -28,44 +29,72 @@ export const FormScreen = () => {
         </Provider>)
 }
 
+const Next = (action) => {
+    console.log(action.origin)
+    action.dispatch(
+        incrementForm({
+            step: action.origin,
+            item: action.payload
+        })
+    )
+    if (action.destination) {
+        action.navigation.navigate(action.destination)
+    }
+
+}
 const ScreenContact = ({ navigation }) => {
     const dispatch = useDispatch()
-    const Next = (form) => {
-        dispatch(increment({ step: 'Contact', form }))
-        navigation.navigate('Document')
-    }
-    return (<ContactForm next={Next} />)
+    const CallBack = payload => Next({
+        dispatch,
+        navigation,
+        payload,
+        origin: 'Contact',
+        destination: 'Document'
+    })
+    return (<ContactForm CallBack={CallBack} />)
 }
 
 const ScreenDocuments = ({ navigation, route }) => {
     const dispatch = useDispatch()
-    const Next = (form) => {
-        dispatch(increment({ step: 'Document', form }))
-        navigation.navigate('Affiliation')
-    }
-    return (<DocumentForm next={Next} />)
+    const CallBack = payload => Next({
+        dispatch,
+        navigation,
+        payload,
+        origin: 'Document',
+        destination: 'Affiliation'
+    })
+    return (<DocumentForm CallBack={CallBack} />)
 }
 const ScreenAffiliation = ({ navigation, route }) => {
     const dispatch = useDispatch()
-    const Next = (form) => {
-        dispatch(increment({ step: 'Affiliation', form }))
-        navigation.navigate('Address', form)
-    }
-    return (<AffiliationForm next={Next} />)
+    const CallBack = payload => Next({
+        dispatch,
+        navigation,
+        payload,
+        origin: 'Affiliation',
+        destination: 'Address'
+    })
+    return (<AffiliationForm CallBack={CallBack} />)
 }
 const ScreenAddress = ({ navigation, route }) => {
     const dispatch = useDispatch()
-    const Next = (form) => {
-        dispatch(increment({ step: 'Address', form }))
-        navigation.navigate('Terms', form)
-    }
-    return (<AddressForm next={Next} />)
+    const CallBack = payload => Next({
+        dispatch,
+        navigation,
+        payload,
+        origin: 'Address',
+        destination: 'Terms'
+    })
+    return (<AddressForm CallBack={CallBack} />)
 }
 const ScreenTerms = ({ navigation, route }) => {
     const dispatch = useDispatch()
-    const Next = (form) => {
-        dispatch(increment({ step: 'Terms', form }))
-        console.log(form)
-    }
-    return (<TermsForm next={Next} />)
+    const CallBack = payload => Next({
+        dispatch,
+        navigation,
+        payload,
+        origin: 'Terms',
+        destination: null
+    })
+    return (<TermsForm CallBack={CallBack} />)
 }

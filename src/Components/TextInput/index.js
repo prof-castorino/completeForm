@@ -1,44 +1,46 @@
 import { View, TextInput } from 'react-native';
-import { maskPhone, maskDate, maskCEP, maskCPF } from '../../Context/Util/Mask'
+import * as mask from '../../Context/Util/Mask'
 import { Styles } from './css'
 
 export const TextCustom = (props) => {
+    const onChange = (e) => {
+        props.CallBack(props.name, e)
+    }
     return (
-        <TextInputCustom {...props} CallBack={props.callBack} />
+        <TextInputCustom {...props} onChange={onChange} />
     );
 }
 
 export const TextDate = (props) => {
-    const CallBack = (e) => {
-        props.callBack(maskDate(props.item, e))
+    const onChange = (e) => {
+        props.CallBack(props.name, mask.Date(props.item, e))
     }
     return (
-        <TextInputCustom {...props} CallBack={CallBack} />
+        <TextInputCustom {...props} onChange={onChange} />
     );
 }
-
 export const TextPhone = (props) => {
-    const CallBack = (e) => {
-        props.callBack(maskPhone(props.item, e))
+    const onChange = (e) => {
+        props.CallBack(props.name, mask.Phone(props.item, e))
     }
     return (
-        <TextInputCustom {...props} CallBack={CallBack} />
+        <TextInputCustom {...props} onChange={onChange} />
     );
 }
 export const TextCPF = (props) => {
-    const CallBack = (e) => {
-        props.callBack(maskCPF(props.item, e))
+    const onChange = (e) => {
+        props.CallBack(props.name, mask.CPF(props.item, e))
     }
     return (
-        <TextInputCustom {...props} CallBack={CallBack} />
+        <TextInputCustom {...props} onChange={onChange} />
     );
 }
 export const TextCEP = (props) => {
-    const CallBack = (e) => {
-        props.callBack(maskCEP(props.item, e))
+    const onChange = (e) => {
+        props.CallBack(props.name, mask.CEP(props.item, e))
     }
     return (
-        <TextInputCustom {...props} CallBack={CallBack} />
+        <TextInputCustom {...props} onChange={onChange} />
     );
 }
 
@@ -51,8 +53,9 @@ const TextInputCustom = (props) => {
                     Styles.inputDisabled
                     : Styles.inputActived
                 ]}
-                onChangeText={props.CallBack}
+                onChangeText={props.onChange}
                 value={props.item}
+                name={props.name}
                 maxLength={props.maxLength}
                 placeholder={props.placeholder}
                 keyboardType={props.keyboardType}

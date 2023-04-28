@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { state } from '../../Context/Util/Address';
+import React, { useState, useEffect } from 'react';
+import { enumState, enumCity } from '../../Context/Integration/Address';
 import { Styles } from './css'
 import { FlatList, SafeAreaView, View, Text } from 'react-native';
 import { ItemSelect, ButtonSelect } from '../Button';
 export const StateBox = (props) => {
-    return (<FlatListCustom {...props} data={state()} />)
+    const [item, setItem] = useState([])
+    useEffect(() => { enumState(setItem) })
+    return (<FlatListCustom {...props} data={item} />)
+}
+export const CityBox = (props) => {
+    const [item, setItem] = useState([])
+    useEffect(() => { enumCity(setItem, props.state) })
+    return (<FlatListCustom {...props} data={item} />)
 }
 
 const FlatListCustom = (props) => {
@@ -31,10 +38,9 @@ const FlatListCustom = (props) => {
     )
 }
 
-
 const List = (props) => {
-    const CallBack = (id) => {
-        props.callBack(id)
+    const CallBack = (value) => {
+        props.CallBack(props.name, value)
         props.State()
     }
     const renderItem = ({ item }) => {
@@ -55,6 +61,7 @@ const List = (props) => {
             <FlatList
                 style={Styles.item}
                 data={props.data}
+                name={props.name}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 extraData={props.item}
